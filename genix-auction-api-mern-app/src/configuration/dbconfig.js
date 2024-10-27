@@ -1,7 +1,7 @@
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const { default: mongoose } = require('mongoose');
-const uri = "mongodb+srv://shekharrishav:<1rJXkkSZhxieYU0e>@cluster0.ancja.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = "mongodb+srv://shekharrishav:1rJXkkSZhxieYU0e@cluster0.ancja.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -25,6 +25,26 @@ async function run() {
   }
 }
 run().catch(console.dir);
+
+// Mongoose connection (alternative connection management)
+mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
+});
+
+mongoose.connection.on("connected", () => {
+  console.log("Mongoose is connected to MongoDB!");
+});
+
+mongoose.connection.on("error", (err) => {
+  console.log("Mongoose connection error:", err);
+});
+
 
 
 module.exports = mongoose;

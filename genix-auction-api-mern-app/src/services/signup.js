@@ -1,5 +1,5 @@
 const User = require("../models/user");
-const bcrypt = require("brycrpt");
+const bcrypt = require("bcrypt");
 
 async function createUser(userData) {
   const {name,email,password} = userData;
@@ -7,10 +7,10 @@ async function createUser(userData) {
   const createdUser = new User({
     name,
     email,
-    hashedPassword
+    password: hashedPassword
   });
   
-  const savedUser = await createUser.save();
+  const savedUser = await createdUser.save();
   return savedUser;
 }
 
